@@ -62,3 +62,31 @@ one of the other reasons behind the development of speculative execution is incr
 > if the memory could match the performance of the CPU there would be no need for caches
 
 caches are high speed and small pool memory in the CPU that store data to read more deeply on caches check [this](https://www.extremetech.com/extreme/188776-how-l1-and-l2-cpu-caches-work-and-why-theyre-an-essential-part-of-modern-chips) 
+
+# Implication of meltdown 
+meltdown has significant implication for system security, as it exposes the potential for malicious impact to extract sensitive data from protected memory on the system, the attacker can bypass memory isolation mechanism, such as virtual memory, to gain unauthorized access to sensitive data.</br>
+the operation system rely on memory  isolation to prevent unauthorized  access to sensitive data, for example, user application are kept isolated from each other and from the **kernel memory space**, meltdown break this access data from other process.
+
+![Image](/images/Kernel_page-table_isolation.svg "kernel-page-tabel")
+
+check this for more [information](https://en.wikipedia.org/wiki/Kernel_page-table_isolation).
+
+```c
+unsigned long long meltdown(unsigned long long address) {
+  unsigned long long start_time, end_time;
+  start_time = clock();
+  usleep(0.1);
+  end_time = clock();
+  return (end_time - start_time);
+}
+int main() {
+  unsigned long long address = 0xfb61b000; // the addres to be access
+  unsigned long long time_taken;
+  char *address_string = "0xfb61b000";
+  time_taken = meltdown(address); //cach time
+  printf("Time taken to access address %s: %llu \n",address_string,
+  time_taken);
+  return 0;
+}
+```
+the meltdown function check time to access the memory location `0xfb61b000` , if the location is cached then the meltdown function will return a small time, if it not it will return a longer time. 
