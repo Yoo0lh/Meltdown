@@ -1,8 +1,27 @@
 # Meltdown 
 
 ![Image](/images/meltdown.jpeg "meltdawn")
+
 Meltdown is a hardwer side-channel attack against modern CPU microprocessore (bypass speculative execution)that it can allow to read unprivileged data or memeory of other processor
 Meltdown is a hardware side-channel attack against modern **CPU** microprocessore (**bypass speculative execution**)that it can allow to read unprivileged data or memory of other processor.
+
+# Affected hardware
+the meltdown attack affects most modern processors that use speculative execution execution :
+- Intel x86 `Processor from Pentium 4` 
+- IBM
+- ARM
+ 
+the vulnerability is not affected all the processor that use speculative execution for example **ADM processor** is not effected by meltdown attacks . 
+the following table shows specific processor families that effected by the meltdown.
+
+| Processor Family | Affected Models |
+|---|---|
+| Intel Core | All models |
+| Intel Xeon | All models |
+| Intel Atom | All models |
+| IBM Power | All models |
+| ARM | Cortex-A75 and Cortex-A76 |
+
 
 # Speculative Execution
 also know as **Dynamic Execution**, to understand the significance of the Meltdown attack and how much is it amazing , it is mandatory to came across the speculative execution concept. this optimization technic widely used by the modern processors, allow them to predictively fetch and execute next instruction before knowing if the instruction is correct or not and that happen to provide some performance to processor.
@@ -42,7 +61,7 @@ the green block presents such as if-else, feching the next set of instruction re
 
 now before explaining why speculative execution is important, let's explain what out-of-order execution is (weve be), because it is an essential concept for understanding speculative execution.
 
-## Out of Order Election  (OoOE)
+# Out of Order Election  (OoOE)
 it's a technique used by modern processor to optimize instruction and improve performance, in a sequential program, instructions are executed on by one in the **order** of the code. however **out-of-order execution** allows, the processor to dynamically  change the order of the instruction at runtime .
 for example if we have those two lines of codes expecting the **CPU** will execute them one after the other by that not what happened because most modern **CPU's** will execute theme them at the same time that's called (out of order execution).
 ```c
@@ -53,7 +72,7 @@ out of order execution allows the process to find independent instruction and ex
 specified in a sequential in the code, by changing the order of instruction dynamically, the process can effectively utilize the available resources for execution
 
 
-### Why Speculative Execution is  importante for the CPU ?
+# Why Speculative Execution is importante for the CPU ?
 before out of order execution was invented, CPUs was in order designs, instructions excused in the order they we received, 
 with no attempts to order they received, or executed them more efficiently, one of the major problem with in order execution is that the pipeline stall stop the entire CPU until the issue is resolved.
 one of the other reasons behind the development of speculative execution is increasing the gap between CPU speed and memory speed, as processors become much faster, the different between CPU clock speed and the time it took to access data form main memory become more bigger and bigger. as the following graph show.
@@ -91,7 +110,7 @@ the meltdown function check time to access the memory location `0xfb61b000` , if
 
 # Mitigation
 there are several **mitigation** techniques have been developed to stop the meltdown vulnerability and microarchitectural attacks .
-### Softwer Pactches 
+### Softwer Patches 
 have been developed by **OS** vendors to mitigate the meltdown vulnerability, this patches typically include changes to the **kernel** and memory management mechanism to develop memory isolation and prevent unauthorized access to protected data .
 ### Microcode Updates
 CPU vendors have been provided **microcode** updates that introduce changes to the processor behavior and speculative execution mechanism. 
@@ -102,3 +121,13 @@ is a technique that aims to protect the kernel memory from authorized access, it
 ![Image](/images/Kernel_page-table_isolation.svg "kernel-page-tabel")
 
 one set of page table for use n kernel mode includes both kernel space and user space the second set of page table for use in user mode contain a copy of user space and minimal set of kernel space handling system calls and interrupts 
+
+# Conclusion
+
+in conclusion **meltdown** is significant security vulnerability that exploit the design of modern processor. it allows attacker to bypass memory isolation and gain unauthorized access to sensitive data, mitigation techniques such as **software patches**, **microcode update** and **kernel page table isolation (KPTI)**, have been developed to address the vulnerability.  
+
+# References
+-   Meltdown (security vulnerability) - Wikipedia: https://en.wikipedia.org/wiki/Meltdown_(security_vulnerability)
+-   Meltdown and Spectre: https://meltdownattack.com/
+-   The Impact of Meltdown and Spectre Attacks - DergiPark: https://dergipark.org.tr/tr/download/article-file/706486
+-   Meltdown: Basics, Details, Consequences : https://www.youtube.com/watch?v=UTSJf05pw-0
