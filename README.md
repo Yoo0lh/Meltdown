@@ -67,8 +67,6 @@ caches are high speed and small pool memory in the CPU that store data to read m
 meltdown has significant implication for system security, as it exposes the potential for malicious impact to extract sensitive data from protected memory on the system, the attacker can bypass memory isolation mechanism, such as virtual memory, to gain unauthorized access to sensitive data.</br>
 the operation system rely on memory  isolation to prevent unauthorized  access to sensitive data, for example, user application are kept isolated from each other and from the **kernel memory space**, meltdown break this access data from other process.
 
-![Image](/images/Kernel_page-table_isolation.svg "kernel-page-tabel")
-
 check this for more [information](https://en.wikipedia.org/wiki/Kernel_page-table_isolation).
 
 ```c
@@ -90,3 +88,17 @@ int main() {
 }
 ```
 the meltdown function check time to access the memory location `0xfb61b000` , if the location is cached then the meltdown function will return a small time, if it not it will return a longer time. 
+
+# Mitigation
+there are several **mitigation** techniques have been developed to stop the meltdown vulnerability and microarchitectural attacks .
+### Softwer Pactches 
+have been developed by **OS** vendors to mitigate the meltdown vulnerability, this patches typically include changes to the **kernel** and memory management mechanism to develop memory isolation and prevent unauthorized access to protected data .
+### Microcode Updates
+CPU vendors have been provided **microcode** updates that introduce changes to the processor behavior and speculative execution mechanism. 
+
+### Kernel Page Table Isolation (KPTI)
+is a technique that aims to protect the kernel memory from authorized access, it includes isolating the **kernel page tables** from user space process , preventing speculative execution attack from accessing sensitive data in the kernel, **KPTI** have been implemented in various os as defense against meltdown and microarchitectural vulnerability 
+
+![Image](/images/Kernel_page-table_isolation.svg "kernel-page-tabel")
+
+one set of page table for use n kernel mode includes both kernel space and user space the second set of page table for use in user mode contain a copy of user space and minimal set of kernel space handling system calls and interrupts 
